@@ -1,27 +1,33 @@
-﻿ const express = require('express');
- const path = require('path');
+﻿const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
 
- const app = express();
+// Initialize app
+const app = express();
 
- // basic middleware
- app.use(express.urlencoded({ extended: true }));
- app.use(express.json());
+// Basic middleware
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(cookieParser());
 
- // view engine placeholder
- app.set('view engine', 'ejs');
- app.set('views', path.join(__dirname, 'views'));
+// View engine setup (EJS)
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
- // health route
- app.get('/', (req, res) => {
-   res.send('Secure Blog App - setup OK');
- });
 
- // example API route
- app.get('/api/health', (req, res) => {
-   res.json({ status: 'ok', timestamp: new Date().toISOString() });
- });
+// Routes
+// Health check routes (for testing)
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
 
- const PORT = process.env.PORT || 3000;
- app.listen(PORT, () => {
-   console.log(`Secure Blog App running on http://localhost:${PORT}`);
- });
+// Import and mount insecure routes
+const insecureRouter = require('./routes/insecure');
+app.use('/', insecureRouter);
+
+// Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Insecure Blog running on http://localhost:${PORT}`);
+  console.log('This branch is intentionally vulnerable. Do not deploy.');
+});
