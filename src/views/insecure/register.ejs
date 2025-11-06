@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Register (Insecure)</title>
+  </head>
+  <body>
+    <nav>
+      <a href="/">Home</a> |
+      <a href="/create">Create Post</a> |
+      <a href="/register">Register</a> |
+      <a href="/login">Login</a> |
+      <a href="/search">Search</a> |
+      <a href="/debug/db">Debug DB</a>
+    </nav>
+    <hr>
+
+    <h2>Register (Insecure)</h2>
+    <form method="POST" action="/register">
+      <label>Username: <input name="username" required></label><br>
+      <label>Email: <input name="email" required></label><br>
+      <label>Password: <input name="password" required></label><br>
+      <button type="submit">Register</button>
+    </form>
+  </body>
+</html>

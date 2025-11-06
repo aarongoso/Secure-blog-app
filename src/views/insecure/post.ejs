@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title><%= post ? post.title : 'Post' %></title>
+  </head>
+  <body>
+    <nav>
+      <a href="/">Home</a> |
+      <a href="/create">Create Post</a> |
+      <a href="/register">Register</a> |
+      <a href="/login">Login</a> |
+      <a href="/search">Search</a> |
+      <a href="/debug/db">Debug DB</a>
+    </nav>
+    <hr>
+
+    <% if (!post) { %>
+      <h2>Post not found</h2>
+    <% } else { %>
+      <h2><%= post.title %></h2>
+      <p>by <%= post.username %> at <%= post.created_at %></p>
+
+      <!-- INTENTIONALLY VULNERABLE: unescaped output to demonstrate stored XSS -->
+      <div class="post-content">
+        <%- post.content %>
+      </div>
+    <% } %>
+  </body>
+</html>
