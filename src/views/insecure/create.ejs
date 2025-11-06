@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Create Post (Insecure)</title>
+  </head>
+  <body>
+    <nav>
+      <a href="/">Home</a> |
+      <a href="/create">Create Post</a> |
+      <a href="/register">Register</a> |
+      <a href="/login">Login</a> |
+      <a href="/search">Search</a> |
+      <a href="/debug/db">Debug DB</a>
+    </nav>
+    <hr>
+
+    <h2>Create a Post (Insecure)</h2>
+    <form method="POST" action="/create">
+      <label>Username (existing): <input name="username" required></label><br>
+      <label>Title: <input name="title" required></label><br>
+      <label>Content:<br>
+        <textarea name="content" rows="8" cols="70"></textarea>
+      </label><br>
+      <button type="submit">Create</button>
+    </form>
+  </body>
+</html>

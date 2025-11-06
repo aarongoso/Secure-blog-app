@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Insecure Blog - Home</title>
+  </head>
+  <body>
+    <nav>
+      <a href="/">Home</a> |
+      <a href="/create">Create Post</a> |
+      <a href="/register">Register</a> |
+      <a href="/login">Login</a> |
+      <a href="/search">Search</a> |
+      <a href="/debug/db">Debug DB</a>
+    </nav>
+    <hr>
+
+    <h1>Insecure Blog - Posts</h1>
+
+    <div id="dom-xss-target"></div>
+
+    <% if (posts && posts.length) { %>
+      <ul>
+        <% posts.forEach(function(p){ %>
+          <li>
+            <a href="/post/<%= p.post_id %>"><%= p.title %></a>
+            by <%= p.username %> at <%= p.created_at %>
+          </li>
+        <% }) %>
+      </ul>
+    <% } else { %>
+      <p>No posts yet.</p>
+    <% } %>
+
+    <!-- DOM XSS demo -->
+    <script>
+      // Vulnerable: inserts location.hash into page unsafely
+      const target = document.getElementById('dom-xss-target');
+      if (target && location.hash) {
+        target.innerHTML = location.hash.substring(1);
+      }
+    </script>
+  </body>
+</html>
