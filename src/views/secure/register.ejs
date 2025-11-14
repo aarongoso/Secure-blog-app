@@ -1,0 +1,31 @@
+<% layout('secure/layout') %>
+<h1>Register</h1>
+
+<% if (errors && errors.length) { %>
+  <ul class="error">
+    <% errors.forEach(e => { %>
+      <li><%= e.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<form method="POST" action="/secure/register">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+  <div>
+    <label for="username">Username:</label><br />
+    <input id="username" name="username" required minlength="3">
+  </div>
+
+  <div>
+    <label for="email">Email:</label><br />
+    <input id="email" type="email" name="email" required>
+  </div>
+
+  <div>
+    <label for="password">Password:</label><br />
+    <input id="password" type="password" name="password" minlength="8" required>
+  </div>
+
+  <button type="submit">Create Account</button>
+</form>

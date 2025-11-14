@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Secure Blog</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 20px; }
+      nav a { margin-right: 10px; }
+      form.inline { display: inline; }
+      .error { color: red; }
+    </style>
+  </head>
+  <body>
+    <!-- Secure Navigation Menu -->
+    <nav>
+      <a href="/secure">Home</a>
+
+      <% if (currentUser) { %>
+        <!-- Shows logged in user and secure logout form -->
+        <span>Welcome, <%= currentUser.username %>!</span>
+
+        <a href="/secure/create">Create Post</a>
+
+        <!-- CSRF protected logout form -->
+        <form class="inline" action="/secure/logout" method="GET">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+          <button type="submit">Logout</button>
+        </form>
+      <% } else { %>
+        <!-- If not logged in -->
+        <a href="/secure/login">Login</a>
+        <a href="/secure/register">Register</a>
+      <% } %>
+    </nav>
+    <hr />
+
+    <%- body %>
+
+  </body>
+</html>

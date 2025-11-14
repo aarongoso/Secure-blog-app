@@ -1,0 +1,22 @@
+<% layout('secure/layout') %>
+<h1>Login</h1>
+
+<% if (error) { %>
+  <p class="error"><%= error %></p>
+<% } %>
+
+<form method="POST" action="/secure/login">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+  <div>
+    <label for="username">Username:</label><br />
+    <input id="username" name="username" required>
+  </div>
+
+  <div>
+    <label for="password">Password:</label><br />
+    <input id="password" type="password" name="password" required>
+  </div>
+
+  <button type="submit">Login</button>
+</form>

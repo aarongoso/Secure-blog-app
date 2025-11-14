@@ -1,0 +1,12 @@
+<% layout('secure/layout') %>
+<h1>Search</h1>
+
+<form method="GET" action="/secure/search">
+  <input name="q" placeholder="Search..." value="<%= q %>">
+  <button type="submit">Go</button>
+</form>
+
+<% if (q && q.length) { %>
+  <p>Showing results for: <%= q %></p>
+  <!-- Safe output prevents reflected XSS -->
+<% } %>

@@ -1,0 +1,19 @@
+<% layout('secure/layout') %>
+<h1>Create a New Post</h1>
+
+<!-- CSRF protected form -->
+<form method="POST" action="/secure/create">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+  <div>
+    <label for="title">Title:</label><br />
+    <input type="text" id="title" name="title" required maxlength="200">
+  </div>
+
+  <div>
+    <label for="content">Content:</label><br />
+    <textarea id="content" name="content" required rows="6" cols="50"></textarea>
+  </div>
+
+  <button type="submit">Publish</button>
+</form>

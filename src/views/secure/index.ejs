@@ -1,0 +1,16 @@
+<% layout('secure/layout') %>
+<h1>All Posts</h1>
+
+<!-- Loop through posts safely -->
+<ul>
+  <% posts.forEach(post => { %>
+    <li>
+      <a href="/secure/post/<%= post.post_id %>"><%= post.title %></a>
+      <small>by <%= post.username %> on <%= post.created_at %></small>
+    </li>
+  <% }) %>
+</ul>
+
+<% if (!posts.length) { %>
+  <p>No posts available yet.</p>
+<% } %>
