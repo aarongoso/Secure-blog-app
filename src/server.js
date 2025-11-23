@@ -10,6 +10,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
+// Redirect / to /insecure
+app.get('/', (req, res) => {
+  res.redirect('/insecure');
+});
+
 // View engine setup (EJS)
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -23,7 +28,7 @@ app.get('/api/health', (req, res) => {
 
 // Import and mount insecure routes
 const insecureRouter = require('./routes/insecure');
-app.use('/', insecureRouter);
+app.use('/insecure', insecureRouter);
 
 // Start server
 const PORT = process.env.PORT || 3000;
