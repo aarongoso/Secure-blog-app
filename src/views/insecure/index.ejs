@@ -7,11 +7,11 @@
   <body>
     <nav>
       <a href="/">Home</a> |
-      <a href="/create">Create Post</a> |
-      <a href="/register">Register</a> |
-      <a href="/login">Login</a> |
-      <a href="/search">Search</a> |
-      <a href="/debug/db">Debug DB</a>
+      <a href="/insecure/create">Create Post</a> |
+      <a href="/insecure/register">Register</a> |
+      <a href="/insecure/login">Login</a> |
+      <a href="/insecure/search">Search</a> |
+      <a href="/insecure/debug/db">Debug DB</a>
     </nav>
     <hr>
 
@@ -23,7 +23,7 @@
       <ul>
         <% posts.forEach(function(p){ %>
           <li>
-            <a href="/post/<%= p.post_id %>"><%= p.title %></a>
+            <a href="/insecure/post/<%= p.post_id %>"><%= p.title %></a>
             by <%= p.username %> at <%= p.created_at %>
           </li>
         <% }) %>
