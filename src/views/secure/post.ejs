@@ -1,6 +1,8 @@
-<% layout('secure/layout') %>
+<% /* Secure Post View */ %>
 <h2><%= post.title %></h2>
-<p><em>by <%= post.username %> on <%= post.created_at %></em></p>
-
-<!-- Render content safely -->
+<p>
+  <em>by <%= post.username %> on <%= post.created_at %></em>
+</p>
+<!-- Content is escaped automatically by EJS -->
+<!-- This prevents stored XSS in the secure branch -->
 <div><%= post.content %></div>

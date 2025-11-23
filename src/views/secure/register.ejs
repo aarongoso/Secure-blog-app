@@ -1,4 +1,4 @@
-<% layout('secure/layout') %>
+<%- include('../partials/header') -%>
 <h1>Register</h1>
 
 <% if (errors && errors.length) { %>
@@ -29,3 +29,4 @@
 
   <button type="submit">Create Account</button>
 </form>
+<%- include('../partials/footer') -%>

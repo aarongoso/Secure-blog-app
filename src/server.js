@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const helmet = require('helmet');
 const csrf = require('csurf');
+const expressLayouts = require('express-ejs-layouts'); // Layout support for EJS templates
 
 // Initialize app
 const app = express();
@@ -17,7 +18,7 @@ app.use(cookieParser());
 // Helmet helps secure Express apps by setting various HTTP headers
 app.use(
   helmet({
-    contentSecurityPolicy: false, 
+    contentSecurityPolicy: false,
   })
 );
 
@@ -42,8 +43,13 @@ const csrfProtection = csrf({ cookie: true });
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Routes
-// Health check routes (for testing)
+
+// Optional but recommended for EJS layouts
+app.set("layout extractScripts", true);
+app.set("layout extractStyles", true);
+
+// ROUTES
+// Health check route (for testing)
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });

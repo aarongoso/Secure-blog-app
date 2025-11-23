@@ -1,8 +1,14 @@
-<% layout('secure/layout') %>
+<% /* Search Page (Secure) */ %>
+
 <h1>Search</h1>
 
+<!-- GET form is safe because output is escaped by EJS -->
 <form method="GET" action="/secure/search">
-  <input name="q" placeholder="Search..." value="<%= q %>">
+  <input 
+    name="q" 
+    placeholder="Search..." 
+    value="<%= q %>" 
+  >
   <button type="submit">Go</button>
 </form>
 
@@ -10,3 +16,20 @@
   <p>Showing results for: <%= q %></p>
   <!-- Safe output prevents reflected XSS -->
 <% } %>
+
+<!-- Display search results -->
+<ul>
+  <% if (results && results.length) { %>
+    <% results.forEach(r => { %>
+      <li>
+        <!-- Escaped link prevents XSS -->
+        <a href="/secure/post/<%= r.post_id %>">
+          <%= r.title %>
+        </a>
+        by <%= r.username %> on <%= r.created_at %>
+      </li>
+    <% }) %>
+  <% } else if (q && q.length) { %>
+    <p>No matching results.</p>
+  <% } %>
+</ul>

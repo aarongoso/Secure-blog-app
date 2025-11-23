@@ -15,6 +15,7 @@
     <!-- Secure Navigation Menu -->
     <nav>
       <a href="/secure">Home</a>
+      <a href="/secure/search">Search</a>
 
       <% if (currentUser) { %>
         <!-- Shows logged in user and secure logout form -->
@@ -22,8 +23,8 @@
 
         <a href="/secure/create">Create Post</a>
 
-        <!-- CSRF protected logout form -->
-        <form class="inline" action="/secure/logout" method="GET">
+        <!-- CSRF protected logout (POST request) -->
+        <form class="inline" action="/secure/logout" method="POST">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
           <button type="submit">Logout</button>
         </form>
