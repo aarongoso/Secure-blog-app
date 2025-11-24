@@ -43,7 +43,6 @@ const csrfProtection = csrf({ cookie: true });
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-
 // Optional but recommended for EJS layouts
 app.set("layout extractScripts", true);
 app.set("layout extractStyles", true);
@@ -54,28 +53,19 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// ROUTE IMPORTS 
-// Import and mount insecure routes
-const insecureRouter = require('./routes/insecure');
-app.use('/insecure', insecureRouter);
-
 // Import and mount secure routes
 const secureRouter = require('./routes/secure');
 app.use('/secure', secureRouter);
 
-// Root route provides navigation
+// CLEAN ROOT ROUTE
+// Redirect root to secure login page
 app.get('/', (req, res) => {
-  res.send(`
-    <h2>Secure Blog Application</h2>
-    <p><a href="/insecure">Visit Insecure Version</a></p>
-    <p><a href="/secure">Visit Secure Version</a></p>
-  `);
+  res.redirect('/secure/login');
 });
-
 
 // Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Secure Blog App running on http://localhost:${PORT}`);
-  console.log('Insecure and Secure routes are both available for testing.');
+  console.log('Secure routes are available for testing.');
 });

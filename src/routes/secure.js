@@ -228,6 +228,18 @@ router.post(
 );
 
 //----------------- LOGOUT ---------------
+// This route handles situations where a logged-out user clicks "Logout".
+// It does NOT destroy sessions (POST handles that securely with CSRF).
+// It simply redirects to login with a friendly message.
+router.get('/logout', (req, res) => {
+  // If no session exists, user is already logged out
+  if (!req.session.user) {
+    return res.redirect('/secure/login?msg=loggedout');
+  }
+
+  // If user is logged in, do NOT destroy session here (only POST is allowed)
+  return res.redirect('/secure/login?msg=loggedout');
+});
 // Logout MUST be POST (GET cannot securely carry CSRF tokens)
 router.post('/logout', csrfProtection, (req, res) => {
   if (req.session.user) {
