@@ -52,19 +52,19 @@ router.get('/register', csrfProtection, (req, res) => {
 });
 
 router.post(
-  '/register',
+  "/register",
   csrfProtection,
   [
-    body('username').trim().isLength({ min: 3 }).escape(),
-    body('email').isEmail().normalizeEmail(),
-    body('password').isLength({ min: 5 }),
+    body("username").trim().isLength({ min: 3 }).escape(),
+    body("email").isEmail().normalizeEmail(),
+    body("password").isLength({ min: 5 }),
   ],
   (req, res) => {
     const errors = validationResult(req);
 
     // If validation fails, re-render form
     if (!errors.isEmpty()) {
-      return res.render('secure/register', {
+      return res.render("secure/register", {
         csrfToken: req.csrfToken(),
         errors: errors.array(),
       });
@@ -76,18 +76,23 @@ router.post(
     const hashed = bcrypt.hashSync(password, 10);
 
     // Insert new user using prepared statement
-    const sql = 'INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)';
+    const sql =
+      "INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)";
     db.run(sql, [username, email, hashed], (err) => {
       if (err) {
         console.error("Registration error:", err.message);
         audit.record(null, `Registration error for ${username}`, req.ip);
-        return res.status(500).send('Registration error.');
+        // Always show generic message — dont reveal cause
+        return res.render("secure/register", {
+          csrfToken: req.csrfToken(),
+          errors: [{ msg: "Registration error. Please try again." }],
+        });
       }
 
       audit.record(null, `New user registered: ${username}`, req.ip);
       console.info(`New user registered: ${username}`);
 
-      res.redirect('/secure/login');
+      res.redirect("/secure/login");
     });
   }
 );
