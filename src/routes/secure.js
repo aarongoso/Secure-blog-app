@@ -161,7 +161,7 @@ router.get('/post/:id', (req, res) => {
 
 
 //---------------- SEARCH ---------------------
-// Secure search with parameterised LIKE query
+// Secure search with fully qualified column names
 router.get('/search', (req, res) => {
   const q = req.query.q || "";
 
@@ -169,14 +169,18 @@ router.get('/search', (req, res) => {
     return res.render("secure/search", { q: "", results: [] });
   }
 
+  const wildcard = `%${q}%`;
+
   const sql = `
-    SELECT post_id, title, username, created_at
+    SELECT 
+      posts.post_id, 
+      posts.title, 
+      users.username, 
+      posts.created_at
     FROM posts
     JOIN users ON posts.user_id = users.user_id
-    WHERE title LIKE ? OR content LIKE ?
+    WHERE posts.title LIKE ? OR posts.content LIKE ?
   `;
-
-  const wildcard = `%${q}%`;
 
   db.all(sql, [wildcard, wildcard], (err, results) => {
     if (err) {
