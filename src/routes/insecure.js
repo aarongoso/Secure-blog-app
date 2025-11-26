@@ -44,7 +44,7 @@ router.post('/create', (req, res) => {
   });
 });
 
-// Simple registration (insecure: stores password as given into password_hash column)
+// Simple registration (insecure: stores password as plain text)
 router.get('/register', (req, res) => {
   res.render('insecure/register');
 });
@@ -52,7 +52,7 @@ router.get('/register', (req, res) => {
 router.post('/register', (req, res) => {
   const { username, email, password } = req.body;
   // vulnerable: no validation or hashing
-  const sql = `INSERT INTO users (username, email, password_hash) VALUES ('${username}', '${email}', '${password}')`;
+  const sql = `INSERT INTO users (username, email, password) VALUES ('${username}', '${email}', '${password}')`;
   db.run(sql, function(err) {
     if (err) return res.status(500).send('DB error: ' + err.message);
     res.redirect('/');
@@ -67,7 +67,7 @@ router.get('/login', (req, res) => {
 router.post('/login', (req, res) => {
   const { username, password } = req.body;
   // vulnerable query - SQL injection possible
-  const sql = `SELECT user_id, username FROM users WHERE username = '${username}' AND password_hash = '${password}'`;
+  const sql = `SELECT user_id, username FROM users WHERE username = '${username}' AND password = '${password}'`;
   db.get(sql, [], (err, user) => {
     if (err) return res.status(500).send('DB error: ' + err.message);
     if (!user) return res.status(401).send('Invalid credentials');
