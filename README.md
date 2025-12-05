@@ -205,8 +205,49 @@ No logs are stored.
 Each event is written to the audit log.
 
 ---
----
+## 8. Sensitive Data Exposure (Insecure Only)
 
+### Test:
+Visit the insecure debug route:
+```
+http://localhost:3000/insecure/debug/db
+```
+
+**Insecure:**  
+The full SQLite database is returned in JSON format, including:
+- Plaintext passwords  
+- User emails  
+- All posts  
+
+This demonstrates intentional sensitive data exposure in the insecure version.
+
+**Secure:**  
+The debug route does not exist.  
+If you visit the equivalent path in the secure version, it will return 404 or redirect, confirming the issue has been removed.
+
+---
+## 9. CSRF Protection (Secure Version Only)
+
+### Test:
+1. Go to:
+   ```
+   http://localhost:3000/secure/create
+   ```
+2. Open Developer Tools → Inspect the form  
+3. Delete the hidden CSRF token field from the HTML  
+4. Submit the form
+
+**Secure:**  
+The request is rejected with:
+```
+403 Forbidden: invalid CSRF token
+```
+This confirms CSRF protection is enabled and working.
+
+**Insecure:**  
+The insecure version does not include CSRF protection, and the submission will succeed without any token.
+
+---
 ## Selenium Tests (Secure Branch Only)
 
 The secure version includes a set of Selenium end-to-end tests to validate key application behaviour such as authentication, post creation, logout, and access control.  
